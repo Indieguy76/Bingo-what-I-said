@@ -129,7 +129,7 @@
 
   <button class="btn-new-game" onclick="generateCard()">NEW GAME / CLEAR ALL</button>
 
-  <script>
+ <script>
     let hasWonThisRound = false;
     let cells = [];
 
@@ -159,6 +159,9 @@
                 } else {
                     cell.innerText = columns[col][row];
                     cell.onclick = () => {
+                        // Standard Haptic: Quick 30ms tap
+                        if ('vibrate' in navigator) navigator.vibrate(30);
+                        
                         cell.classList.toggle('marked');
                         checkWin();
                     };
@@ -184,6 +187,10 @@
 
         if (winningCombo) {
             hasWonThisRound = true;
+            
+            // Special Win Haptic: Heartbeat pattern (vibrate 200ms, pause 100ms, vibrate 200ms)
+            if ('vibrate' in navigator) navigator.vibrate([200, 100, 200]);
+
             const title = document.querySelector('h1');
             title.innerHTML = `BINGO!<br><span style="font-size: 0.5em; display: block; margin-top: 5px;">(${winningCombo.name})</span>`;
             title.style.color = '#3ddc84';
@@ -198,6 +205,6 @@
     }
 
     window.onload = generateCard;
-  </script>
+</script>
 </body>
 </html>
